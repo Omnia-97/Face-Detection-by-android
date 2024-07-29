@@ -1,11 +1,15 @@
 package com.example.facedetectionapp;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.FaceDetector;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -141,10 +145,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ShowDetection(final String title, final StringBuilder builder, boolean success) {
-        if (success) {
-            textView.setText("");
+        if (success == true) {
+            textView.setText(null);
+            textView.setMovementMethod(new ScrollingMovementMethod());
+            if (builder.length()!=0){
+                textView.append(builder);
+                if(title.substring(0 , title.indexOf("")).equalsIgnoreCase("OCR")){
+                    textView.append("\n(Hold the text to copy it !)");
+                } else {
+                    textView.append("(Hold the image to Copy it !)");
+                }
+                textView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText( title, builder);
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(getApplicationContext(), "Text Copied !", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+            }else {
+                textView.append(title.substring(0 , title.indexOf(" "))+ "No Face Detected");
+            }
+        } else if (success == false) {
+            textView.setText(null);
+            textView.setMovementMethod(new ScrollingMovementMethod());
+            textView.append(builder);
+            
         }
-        textView.append(builder);
-        textView.append("\n\n");
+
+
     }
 }
