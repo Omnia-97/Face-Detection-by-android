@@ -18,7 +18,7 @@ public class ResultDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_resultdialog , container , false);
+        View view = inflater.inflate(R.layout.fragment_resultdialog, container, false);
         String text = "";
         btn = view.findViewById(R.id.ok_btn);
         textView = view.findViewById(R.id.dialog);

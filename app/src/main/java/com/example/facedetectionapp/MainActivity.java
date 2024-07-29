@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     builder.append("\n");
 
                 }
-                ShowDetection("Face Detection", builder , true);
+                ShowDetection("Face Detection", builder, true);
             }
         });
         result.addOnFailureListener(new OnFailureListener() {
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 StringBuilder builder1 = new StringBuilder();
                 builder1.append("sorry there is an error");
-                ShowDetection("Face Detection", builder , true);
+                ShowDetection("Face Detection", builder, true);
 
             }
         });
@@ -145,12 +145,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ShowDetection(final String title, final StringBuilder builder, boolean success) {
-        if (success == true) {
+        if (success) {
             textView.setText(null);
             textView.setMovementMethod(new ScrollingMovementMethod());
-            if (builder.length()!=0){
+            if (builder.length() != 0) {
                 textView.append(builder);
-                if(title.substring(0 , title.indexOf("")).equalsIgnoreCase("OCR")){
+                if (title.substring(0, title.indexOf("")).equalsIgnoreCase("OCR")) {
                     textView.append("\n(Hold the text to copy it !)");
                 } else {
                     textView.append("(Hold the image to Copy it !)");
@@ -159,20 +159,20 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onLongClick(View v) {
                         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText( title, builder);
+                        ClipData clip = ClipData.newPlainText(title, builder);
                         clipboard.setPrimaryClip(clip);
                         Toast.makeText(getApplicationContext(), "Text Copied !", Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });
-            }else {
-                textView.append(title.substring(0 , title.indexOf(" "))+ "No Face Detected");
+            } else {
+                textView.append(title.substring(0, title.indexOf(" ")) + "No Face Detected");
             }
-        } else if (success == false) {
+        } else if (!success) {
             textView.setText(null);
             textView.setMovementMethod(new ScrollingMovementMethod());
             textView.append(builder);
-            
+
         }
 
 
